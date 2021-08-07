@@ -1,0 +1,11 @@
+---
+
+- hosts: all
+  become: true  # allow to become another user, another that the one you are logged in
+  tasks:
+  
+  - name: install apache2 package
+    apt:
+      name: apache2
+      state: absent		
+

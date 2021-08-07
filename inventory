@@ -1,1 +1,7 @@
-root@95.179.157.127
+[web_servers]
+root@136.244.77.247
+
+[db_servers]
+
+
+[file_servers]

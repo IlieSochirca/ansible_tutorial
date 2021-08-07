@@ -1,0 +1,24 @@
+---
+
+
+- hosts: all # run this tasks against all groups servers
+  become: true # allow to become another user, another that the one you are logged in
+  tasks:
+  - name: update servers packages
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: web_servers
+  become: true  # allow to become another user, another that the one you are logged in
+  tasks:
+  - name: install apache2 and docker packages on Ubuntu distribution
+    apt:
+      name:
+        - apache2
+        - docker
+      state: latest
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
