@@ -1,0 +1,38 @@
+---
+
+
+- hosts: all # run this tasks against all groups servers
+  become: true # allow to become another user, another that the one you are logged in
+  tasks:
+  - name: update servers packages
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: create ilie user
+    tags: always
+    user:
+      name: ilie
+      groups: root
+
+  - name: add ssh key for ilie user
+    tags: always
+    authorized_key:
+      user: ilie
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJuys7T3ksA9A7u/rSVvfLKVHyQbz3S1gZnWmMQne5ew ansible"
+
+  - name: add sudoers file for ilie user (user sudo without password)
+    tags: always
+    copy:
+      src: sudoer_ilie
+      dest: /etc/sudoers.d/ilie
+      owner: root
+      group: root
+      mode: 0440
+
